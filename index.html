@@ -1,0 +1,119 @@
+
+<html>
+<head>
+    <title>Advaned Routing Example</title>
+    <script type="text/javascript" src="http://static.firebase.com/v0/firebase.js"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.2/underscore-min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="backbone.js"></script>
+    <script type="text/javascript" src="backbone-firebase.js"></script>
+    <script type="text/javascript" src="rivets.js"></script>
+
+    <style type="text/css">
+        section {
+            display: none;
+        }
+    </style>
+
+    <script type="text/javascript">
+        jQuery(function($) {
+            BackboneFirebase.DEFAULT_INSTANCE = 'http://wordspot.firebaseio.com/muck/bbtest';
+
+            var User = Backbone.Model.extend({
+                idAttribute: '_key',
+                url: function() {
+                   var key = this.get(this.idAttribute);
+                   return key? '/users/'+key : '/users';
+                },
+                initialize: function(){
+                    console.log('initialized User'); //debug
+                }
+            });
+
+            var UserCollection = Backbone.Collection.extend({
+                model: User,
+                url: "/users",
+                initialize: function() {
+                   console.log('initialized UserCollection'); //debug
+                   this.backboneFirebase = new BackboneFirebase(this);
+                }
+            });
+
+            var users = new UserCollection();
+            var $log = $('#log');
+            var router = new (Backbone.Router.extend({
+                routes: {
+                    "": 'hello',
+                    "hello": "hello",
+                    "users": "users",
+                    "widgets": "widgets"
+                },
+
+                hello: function() {
+                    console.log('route: hello');
+                },
+
+                users: function() {
+                    console.log('route: users');
+                },
+
+                widgets: function(user) {
+                    console.log('route: widgets');
+                },
+
+                initialize: function() {
+                    this.bind('all', function (trigger, args) {
+                        var routeData = trigger.split(":");
+                        if (routeData[0] === "route") {
+                            $log.text('current route: ' + routeData[1] + (args? ' ('+args+')' : ''));
+                            $('[data-route]').hide();
+                            $('[data-route="'+routeData[1]+'"]').show();
+                            // do whatever here.
+                            // routeData[1] will have the route name
+                        }
+                    });
+                }
+            }))();
+            Backbone.history.start();
+        });
+    </script>
+
+</head>
+<body>
+
+<nav>
+    <a href="#/users">users</a>
+    <a href="#/widgets">widgets</a>
+</nav>
+
+
+<section data-route="hello">Hello</section>
+
+<section data-route="users">
+    <fieldset>
+        <legend>add user</legend>
+        <label>name: <input type="text" name="name" /></label>
+        <label>email: <input type="text" name="email" /></label>
+        <button>add</button>
+    </fieldset>
+    <ul>
+        <li><span data-bind="name"></span> (<span data-bind="email"></span>)</li>
+    </ul>
+</section>
+
+<section data-route="widgets">
+    <fieldset>
+        <legend>add widget</legend>
+        <label>owner: <input type="text" name="owner" /></label>
+        <label>name: <input type="text" name="name" /></label>
+        <button>add</button>
+    </fieldset>
+    <ul>
+        <li><span data-bind="name"></span> (<span data-bind="email"></span>)</li>
+    </ul>
+</section>
+
+<div id="log"></div>
+
+</body>
+</html>

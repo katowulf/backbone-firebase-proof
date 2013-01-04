@@ -18,7 +18,7 @@
 
    jQuery(function($) {
       $.bb.updateFooter();
-      BackboneFirebase.DEFAULT_INSTANCE = 'http://wordspot.firebaseio.com/muck/bbtest';
+      BackboneFirebase.DEFAULT_INSTANCE = 'http://github.firebaseio.com/';
       $.bb.Router.init(footerModel);
    });
 

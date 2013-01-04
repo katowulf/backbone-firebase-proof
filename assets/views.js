@@ -24,10 +24,30 @@
       users: null,
       load: function(props) {
          this.users = new $.bb.lists.Users(null, {footerRef: props.extra.footer});
+         this.users.on('add', function() {
+            console.log('add user record', _.toArray(arguments)); //debug
+         });
          var $el = this.$el;
          var factory = $.bb.bindings.factory($el, {template: 'data-panel-users'});
          this._binder = new Backbone.CollectionBinder(factory);
          this._binder.bind(this.users, $el.find('.data-panel'));
+         $el.find('form').validate({
+            highlight: function(label) {
+               $(label).closest('.control-group').addClass('error').removeClass('success');
+            },
+            success: function(label) {
+               $(label).closest('.control-group').addClass('success').removeClass('error');
+            },
+            submitHandler: this.addUser
+         });
+      },
+      addUser: function() {
+         console.log('addUser', _.toArray(arguments)); //debug
+         return false;
+      },
+      delUser: function() {
+         console.log('delUser', _.toArray(arguments)); //debug
+         return false;
       }
    }));
 

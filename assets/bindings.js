@@ -22,14 +22,20 @@
       props || (props = {});
       var out = {};
       $e.find(':hasAttrWithPrefix(data-bind)').each(function() {
-         var attr = $(this).attr('data-bind');
-         if(_.contains(fields, attr)) {
-            if( !attr ) {
-               console.warn('empty data binding', $e);
+         var name = _.str.trim($(this).attr('data-bind'));
+         var href = $(this).attr('data-href');
+         if( href ) {
+            var parts = href.split(':');
+            name = _.str.trim(parts[0]);
+            if(_.contains(fields, name)) {
+               out[name] = { selector: '[data-href="'+href+'"]', elAttribute: 'href' };
             }
-            else {
-               out[_.str.trim(attr)] = defForElType($e, attr, props);
-            }
+         }
+         else if( !name ) {
+            console.warn('empty data binding', $e);
+         }
+         else if(_.contains(fields, name)) {
+            out[name] = defForElType($e, name, props);
          }
       });
       console.log('collectBindings', out, fields, $e, props); //debug
@@ -77,7 +83,7 @@
    }
 
    function getTemplate($e, template) {
-      return _.str.trim($('script[type="text/template"]').filter('[name="'+template+'"]').html());
+      return $.bb.templates[template];
    }
 
 

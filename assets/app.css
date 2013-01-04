@@ -46,3 +46,15 @@ footer .navbar-inner {
 footer span {
    color: green;
 }
+
+form {
+   display:inline;
+}
+
+input[type="text"] {
+   height: auto;
+}
+
+.error {
+   color: red;
+}

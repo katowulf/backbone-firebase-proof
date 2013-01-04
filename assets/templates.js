@@ -9,6 +9,4 @@
       var $this = $(this);
       T[ $this.attr('name') ] = _.str.trim($this.html());
    });
-
-   console.log('templates', T);
 })(jQuery);

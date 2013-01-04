@@ -20,10 +20,10 @@
       },
       url: function() {
          var key = this.get(this.idAttribute);
-         return key? '/users/'+key : '/users';
+         return key? '/users/'+key : null;
       },
       initialize: function(){
-         //todo?
+         this.set('routeUrl', '#/users/'+this.cid);
       }
    }));
 
@@ -37,7 +37,7 @@
          return key? '/widgets/'+key : '/widgets';
       },
       initialize: function(){
-         //todo?
+         this.set('routeUrl', '#/widgets/'+this.cid);
       }
    }));
 

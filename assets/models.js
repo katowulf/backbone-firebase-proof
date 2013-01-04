@@ -17,12 +17,9 @@
          name: 'Anon Y. Mous',
          email: 'unknown@localhost'
       },
-      url: function() {
-         var key = this.get(this.idAttribute);
-         return key? '/users/'+key : null;
-      },
+      url: 'users',
       initialize: function(){
-         this.set('routeUrl', '#/user/delete/'+this.cid);
+         this.routeUrl = '#/user/delete/'+this.cid;
       }
    });
 
@@ -31,12 +28,9 @@
          name: 'unknown widget',
          owner: 'no owner'
       },
-      url: function() {
-         var key = this.get(this.idAttribute);
-         return key? '/widgets/'+key : '/widgets';
-      },
+      url: 'widgets',
       initialize: function(){
-         this.set('routeUrl', '#/widget/delete/'+this.cid);
+         this.routeUrl = '#/widget/delete/'+this.cid;
       }
    });
 

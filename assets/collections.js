@@ -10,7 +10,7 @@
       url: "/users",
       initialize: function() {
          this.updateCount();
-         this.backboneFirebase = new BackboneFirebase(this);
+         this.backboneFirebase = new BackboneFirebase(this, {idAttribute: '_key', syncManager: BackboneFirebaseAutoSync});
          this.on('all', function(action) {
             switch(action) {
                case 'add':
@@ -32,7 +32,7 @@
       url: "/widgets",
       initialize: function(models, props) {
          this.updateCount();
-         this.backboneFirebase = new BackboneFirebase(this);
+         this.backboneFirebase = new BackboneFirebase(this, {idAttribute: '_key', syncManager: BackboneFirebaseAutoSync});
          this.on('all', function(action) {
             switch(action) {
                case 'add':

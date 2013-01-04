@@ -37,7 +37,6 @@
             out[name] = defForElType($e, name, props);
          }
       });
-      console.log('collectBindings', out, fields, $e, props); //debug
       return out;
    };
 

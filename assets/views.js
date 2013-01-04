@@ -13,18 +13,6 @@
 
    var ViewBase = Backbone.View.extend({
 
-      // applies backbone-firebase bindings automatically on record changes for real-time effect
-      automateSync: function() {
-         this.collection.on('all', function() {
-            console.log('automateSync', _.toArray(arguments)); //debug
-            //todo
-            //todo
-            //todo
-            //todo
-         }, this);
-         this._addSubscription(function() { this.off('all') });
-      },
-
       // Applies Backbone.ModelBinder bindings to the data
       applyDataBindings: function(template, $to, bindings) {
          bindings = _.extend({
@@ -51,7 +39,7 @@
 
       // jQuery/Bootstrap validation
       addValidation: function() {
-         this.$el.find('form').validate({
+         this.$el.find('form').on('submit', false).validate({
             highlight: function(label) {
                $(label).closest('.control-group').addClass('error').removeClass('success');
             },
@@ -66,11 +54,12 @@
       addDeleteTrigger: function(selector, root) {
          var collection = this.collection;
          var $e = root? this.$el.find(root) : this.$el;
-         $e.on('click.deleteTrigger', selector, function() {
+         $e.on('click.deleteTrigger', selector, function(e) {
             var cid = ($(this).attr('href').match(/\/([^/]+)$/)||[])[1];
             if( cid ) {
                collection.remove( collection.get(cid) );
             }
+            e.preventDefault();
             return false;
          });
          this._addSubscription(function() { $e.off('click.deleteTrigger') });
@@ -85,6 +74,7 @@
             values[k] = _.str.trim($self.val());
          });
          this.collection.add([values]);
+         evt.preventDefault();
          return false;
       },
 
@@ -133,7 +123,6 @@
          this.addDeleteTrigger('a', '.data-panel');
          this.updateInputTextOnAdd(this.$el.find('[name=name]'), 'user');
          this.updateInputTextOnAdd(this.$el.find('[name=email]'), 'user', '@localhost.com');
-         this.automateSync();
       }
    });
 
@@ -145,13 +134,12 @@
       widgets: null,
       initialize: function(props) {
          $.bb.showMessage('Loading widgets from database', 'info', 2);
-         this.collection = new $.bb.lists.Widgets(null, {footerRef: props.extra.footer});
+         this.collection = new $.bb.lists.Widgets({footerRef: props.extra.footer});
          this.applyDataBindings('data-panel-widgets', this.$el.find('.data-panel'), {owner: {selector: '[data-name="owner"]'}});
          this.addValidation();
          this.addDeleteTrigger('a', '.data-panel');
          this.syncDropdownMenu();
          this.updateInputTextOnAdd(this.$el.find('[name=name]'), 'widget ');
-         this.automateSync();
       },
       syncDropdownMenu: function() {
          var users = loadUsers();

@@ -36,46 +36,51 @@
                 <p>Click on <a href="#/users">users</a> and <a href="#/widgets">widgets</a> to get some action. This demo employs:
                 <table class="table table-striped" style="max-width: 600px">
                     <thead>
-                        <tr>
-                            <th>Feature</th>
-                            <th>Lib</th>
-                            <th>Scripts</th>
-                        </tr>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Lib</th>
+                        <th>Scripts</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Framework</td>
-                            <td><a href="http://backbonejs.org/">Backbone</a></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Real-time database</td>
-                            <td><a href="http://www.firebase.com">Firebase</a></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Adapter</td>
-                            <td><a href="https://github.com/alexbain/backbone-firebase">backbone-firebase</a></td>
-                            <td>Thanks <a href="https://github.com/alexbain">Alex</a>!</td>
-                        </tr>
-                        <tr>
-                            <td>Hashtag Routing</td>
-                            <td><a href="http://backbonejs.org/#Router">Backbone.Router</a></td>
-                            <td><a href="https://github.com/katowulf/backbone-firebase-proof/blob/master/assets/router.js">assets/router.js</a></td>
-                        </tr>
-                        <tr>
-                            <td>Data bindings</td>
-                            <td><a href="https://github.com/theironcook/Backbone.ModelBinder">Backbone.ModelBinder</a></td>
-                            <td>
-                                <a href="https://github.com/katowulf/backbone-firebase-proof/blob/master/assets/bindings.js">assets/binding.js</a>
-                                <br />
-                                <a href="https://github.com/katowulf/backbone-firebase-proof/blob/master/assets/views.js">assets/views.js</a>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td>Framework</td>
+                        <td><a href="http://backbonejs.org/">Backbone</a></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Real-time database</td>
+                        <td><a href="http://www.firebase.com">Firebase</a></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Backbone Adapter</td>
+                        <td><a href="https://github.com/katowulf/backbone-firebase-proof/blob/master/lib/backbone-firebase.js">backbone-firebase (tweaked)</a></td>
+                        <td>Thanks <a href="https://github.com/alexbain">Alex</a>!</td>
+                    </tr>
+                    <tr>
+                        <td>Real-time push updates</td>
+                        <td><a href="https://github.com/katowulf/backbone-firebase-proof/blob/master/lib/backbone-firebase-autosync.js">backbone-firebase-autosync</a></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Hashtag Routing</td>
+                        <td><a href="http://backbonejs.org/#Router">Backbone.Router</a></td>
+                        <td><a href="https://github.com/katowulf/backbone-firebase-proof/blob/master/assets/router.js">assets/router.js</a></td>
+                    </tr>
+                    <tr>
+                        <td>Data bindings</td>
+                        <td><a href="https://github.com/theironcook/Backbone.ModelBinder">Backbone.ModelBinder</a></td>
+                        <td>
+                            <a href="https://github.com/katowulf/backbone-firebase-proof/blob/master/assets/bindings.js">assets/binding.js</a>
+                            <br />
+                            <a href="https://github.com/katowulf/backbone-firebase-proof/blob/master/assets/views.js">assets/views.js</a>
+                        </td>
+                    </tr>
                     </tbody>
-                </ul>
-            </table>
-            <p>Everything else is demo-fluff!</p>
+                </table>
+                <p>Everything else is demo-fluff!</p>
+            </div>
         </div>
     </article>
     <article data-route="users" class="row">
@@ -103,7 +108,7 @@
             <fieldset>
                 <legend>add widget</legend>
                 <div class="control-group" id="widgetSelectGroup">
-                    <label>owner: <select name="owner" class="required"></select>
+                    <label>owner: <select name="owner" class="required"></select></label>
                 </div>
                 <div class="control-group">
                     <label>label: <input type="text" name="name" value="widget 1" class="required" /></label>
@@ -159,15 +164,17 @@
   ********** LIBS ************
 -->
 <script type="text/javascript" src="http://static.firebase.com/v0/firebase.js"></script>
-<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.2/underscore-min.js"></script>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.2/underscore.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.js"></script>
-<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.10.0/jquery.validate.min.js"></script>
-<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.10.0/jquery.validate.js"></script>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/bootstrap.js"></script>
 
-<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.9/backbone-min.js"></script>
+<script type="text/javascript" src="lib/backbone.js"></script>
+<!--<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.9/backbone-min.js"></script>-->
 <script type="text/javascript" src="lib/console-normalizer.js"></script>
 <script type="text/javascript" src="lib/underscore.string.js"></script>
 <script type="text/javascript" src="lib/backbone-firebase.js"></script>
+<script type="text/javascript" src="lib/backbone-firebase-autosync.js"></script>
 <!--<script type="text/javascript" src="lib/rivets.js"></script>-->
 <script type="text/javascript" src="lib/Backbone.ModelBinder.min.js"></script>
 <script type="text/javascript" src="lib/Backbone.CollectionBinder.min.js"></script>

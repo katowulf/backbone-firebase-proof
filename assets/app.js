@@ -12,9 +12,7 @@
     * @param {Object} props any of route, userCount, and/or widgetCount
     */
    $.bb.updateFooter = function(props) {
-      _.each(props, function(v, k) {
-         footerModel.set(k, v);
-      });
+      footerModel.set(props);
    };
 
    /**

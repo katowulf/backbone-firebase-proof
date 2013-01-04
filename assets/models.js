@@ -5,15 +5,14 @@
    $.bb || ($.bb = {}); // namespace
    var M = $.bb.models = {};
 
-
-   var BASE = {
+   var ModelBase = Backbone.Model.extend({
       idAttribute: '_key',
       keys: function() {
          return _.keys(this.attributes);
       }
-   };
+   });
 
-   M.User = Backbone.Model.extend(_.extend({}, BASE, {
+   M.User = ModelBase.extend({
       defaults: {
          name: 'Anon Y. Mous',
          email: 'unknown@localhost'
@@ -23,35 +22,30 @@
          return key? '/users/'+key : null;
       },
       initialize: function(){
-         this.set('routeUrl', '#/users/'+this.cid);
+         this.set('routeUrl', '#/user/delete/'+this.cid);
       }
-   }));
+   });
 
-   M.Widget = Backbone.Model.extend(_.extend({}, BASE, {
+   M.Widget = ModelBase.extend({
       defaults: {
-         name: 'shiny widget',
-         owner: 'katowulf'
+         name: 'unknown widget',
+         owner: 'no owner'
       },
       url: function() {
          var key = this.get(this.idAttribute);
          return key? '/widgets/'+key : '/widgets';
       },
       initialize: function(){
-         this.set('routeUrl', '#/widgets/'+this.cid);
+         this.set('routeUrl', '#/widget/delete/'+this.cid);
       }
-   }));
+   });
 
-   M.Footer = Backbone.Model.extend(_.extend({}, BASE, {
+   M.Footer = ModelBase.extend({
       defaults: {
          'route': 'home',
          'userCount': '*',
          'widgetCount': '*'
-      },
-      initialize: function() {
-         this.on('all', function(action, props) {
-            console.log('Footer model', action, props); //debug
-         })
       }
-   }));
+   });
 
 })(jQuery);

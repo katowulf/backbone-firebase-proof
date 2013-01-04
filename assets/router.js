@@ -67,7 +67,6 @@
             var props = { extra: {footer: footer} };
             if( $el ) { props.el = $el; }
             else { props.tagName = 'div' }
-            console.log('view from', View, props); //debug
             v = loadedViews[route] = new View(props);
          }
       }

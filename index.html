@@ -33,19 +33,49 @@
         <div class="span12">
             <div class="hero-unit">
                 <h1>Hello</h1>
-                <p>Click on <a href="#/users">users</a> and <a href="#/widgets">widgets</a> to see the demo.
-                   Pretty much all the bindings for hooking up
-                    <a href="http://backbonejs.org/">Backbone</a>,
-                    <a href="http://www.firebase.com">Firebase</a>,
-                    and <a href="https://github.com/theironcook/Backbone.ModelBinder">ModelBinder</a>
-                    (for data bindings) are in these two files:</p>
-                <ul>
-                    <li><a href="lib/backbone-firebase.js">lib/backbone-firebase.js</a> (thanks <a
-                            href="https://github.com/alexbain">Alex</a>!)</li>
-                    <li><a href="assets/bindings.js">assets/bindings.js</a></li>
+                <p>Click on <a href="#/users">users</a> and <a href="#/widgets">widgets</a> to get some action. This demo employs:
+                <table class="table table-striped" style="max-width: 600px">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Lib</th>
+                            <th>Scripts</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Framework</td>
+                            <td><a href="http://backbonejs.org/">Backbone</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Real-time database</td>
+                            <td><a href="http://www.firebase.com">Firebase</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Adapter</td>
+                            <td><a href="https://github.com/alexbain/backbone-firebase">backbone-firebase</a></td>
+                            <td>Thanks <a href="https://github.com/alexbain">Alex</a>!</td>
+                        </tr>
+                        <tr>
+                            <td>Hashtag Routing</td>
+                            <td><a href="http://backbonejs.org/#Router">Backbone.Router</a></td>
+                            <td><a href="https://github.com/katowulf/backbone-firebase-proof/blob/master/assets/router.js">assets/router.js</a></td>
+                        </tr>
+                        <tr>
+                            <td>Data bindings</td>
+                            <td><a href="https://github.com/theironcook/Backbone.ModelBinder">Backbone.ModelBinder</a></td>
+                            <td>
+                                <a href="https://github.com/katowulf/backbone-firebase-proof/blob/master/assets/bindings.js">assets/binding.js</a>
+                                <br />
+                                <a href="https://github.com/katowulf/backbone-firebase-proof/blob/master/assets/views.js">assets/views.js</a>
+                            </td>
+                        </tr>
+                    </tbody>
                 </ul>
-                <p>Everything else is demo-fluff!</p>
-            </div>
+            </table>
+            <p>Everything else is demo-fluff!</p>
         </div>
     </article>
     <article data-route="users" class="row">
@@ -72,8 +102,8 @@
         <div class="span4">
             <fieldset>
                 <legend>add widget</legend>
-                <div class="control-group">
-                    <label>owner: <input type="text" name="owner" value="user1" class="required" /></label>
+                <div class="control-group" id="widgetSelectGroup">
+                    <label>owner: <select name="owner" class="required"></select>
                 </div>
                 <div class="control-group">
                     <label>label: <input type="text" name="name" value="widget 1" class="required" /></label>
@@ -88,8 +118,9 @@
     </article>
 </section>
 
+<div id="messages"></div>
 <footer class="navbar navbar-fixed-bottom">
-    <div class="navbar-inner" id="log">
+    <div class="navbar-inner">
         current route: <span data-bind="route">home</span> /
         users loaded: <span data-bind="userCount">*</span> /
         widgets loaded: <span data-bind="widgetCount">*</span>
@@ -104,11 +135,24 @@
 </script>
 
 <script type="text/template" name="data-panel-users">
-    <li><a data-href="routeUrl" href=""><span data-name="name"></span> (<span data-name="email"></span>)</a></li>
+    <li><a href=""><span data-name="name"></span> (<span data-name="email"></span>)
+        <i class="icon-remove-sign"></i></a></li>
 </script>
 
 <script type="text/template" name="data-panel-widgets">
-    <li><a data-href="routeUrl" href=""><span data-name="name"></span> (<span data-name="owner"></span>)</a></li>
+    <li><a href=""><span data-name="name"></span> (<span data-name="owner"></span>)
+        <i class="icon-remove-sign"></i></a></li>
+</script>
+
+<script type="text/template" name="option-template">
+    <option></option>
+</script>
+
+<script type="text/template" name="message-template">
+    <div class="alert <%- data.class %>">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <%- data.txt %>
+    </div>
 </script>
 
 <!--

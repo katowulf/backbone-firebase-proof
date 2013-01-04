@@ -29,6 +29,14 @@ ul.data-panel li a {
    padding: 5px;
 }
 
+ul.data-panel li a i {
+   display: none;
+}
+
+ul.data-panel li a:hover i {
+   display: inline-block;
+}
+
 .hero-unit {
    padding: 20px 60px;
 }
@@ -57,4 +65,11 @@ input[type="text"] {
 
 .error {
    color: red;
+}
+
+#messages {
+   position: absolute;
+   bottom: 30px;
+   z-index: 1050;
+   width: 100%;
 }

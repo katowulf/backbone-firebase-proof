@@ -8,33 +8,32 @@
    var ready = false;
 
    /**
-    * Bind an element using html data-bind attributes.
+    * Bind an element using html attributes. The elements accepted are:
+    *    data-bind: tries to determine the best choice (e.g. value for inputs, html/text for span, div, et al)
+    *    data-attr: accepts "attr:name" (e.g. "href:name", "class:name") where name is a model field's name
     *
     * Props attributes:
     *    collection:  {Backbone.Collection} converts collection for use in select list
     *    type:        {String=html} `text` or `html`
     *
-    * @param {jQuery} $e
-    * @param {Array}  fields
-    * @param {object} [props]
+    * @param {jQuery} $e      the parent element, we apply bindings to anything below this in the DOM
+    * @param {Array}  fields  the names of fields we can bind (the ones in the model)
+    * @param {object} [props] see above
     */
    B.collect = function($e, fields, props) {
       props || (props = {});
       var out = {};
-      $e.find(':hasAttrWithPrefix(data-bind)').each(function() {
+      $e.find('[data-bind], [data-attr]').each(function() {
          var name = _.str.trim($(this).attr('data-bind'));
-         var href = $(this).attr('data-href');
-         if( href ) {
-            var parts = href.split(':');
-            name = _.str.trim(parts[0]);
+         var attr = $(this).attr('data-attr');
+         if( attr ) {
+            var parts = attr.split(':');
+            name = _.str.trim(parts[1]);
             if(_.contains(fields, name)) {
-               out[name] = { selector: '[data-href="'+href+'"]', elAttribute: 'href' };
+               out[name] = { selector: '[data-attr="'+attr+'"]', elAttribute: _.str.trim(parts[1]) };
             }
          }
-         else if( !name ) {
-            console.warn('empty data binding', $e);
-         }
-         else if(_.contains(fields, name)) {
+         else if( name && _.contains(fields, name)) {
             out[name] = defForElType($e, name, props);
          }
       });
@@ -44,15 +43,14 @@
 
    /**
     * Create a Backbone.CollectionBinder.ElManagerFactory
-    * @param $e
     * @param [props]
     */
-   B.factory = function($e, props) {
+   B.factory = function(props) {
       props = _.extend({
-         attr: 'data-name',
-         template: 'data-panel'
+         template: 'data-panel',
+         bindings: 'data-name'
       }, props);
-      return new Backbone.CollectionBinder.ElManagerFactory(getTemplate($e, props.template), props.attr);
+      return new Backbone.CollectionBinder.ElManagerFactory(getTemplate(props.template), props.bindings);
    };
 
    /**
@@ -82,8 +80,8 @@
       }
    }
 
-   function getTemplate($e, template) {
-      return $.bb.templates[template];
+   function getTemplate(template) {
+      return $.bb.fetchTemplate(template);
    }
 
 

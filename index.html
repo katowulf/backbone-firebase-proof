@@ -1,119 +1,131 @@
 
 <html>
 <head>
-    <title>Advaned Routing Example</title>
-    <script type="text/javascript" src="http://static.firebase.com/v0/firebase.js"></script>
-    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.2/underscore-min.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <script type="text/javascript" src="backbone.js"></script>
-    <script type="text/javascript" src="backbone-firebase.js"></script>
-    <script type="text/javascript" src="rivets.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-    <style type="text/css">
-        section {
-            display: none;
-        }
-    </style>
+    <title>Firebase+Backbone+bindings</title>
 
-    <script type="text/javascript">
-        jQuery(function($) {
-            BackboneFirebase.DEFAULT_INSTANCE = 'http://wordspot.firebaseio.com/muck/bbtest';
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/css/bootstrap-responsive.min.css" />
+    <link rel="stylesheet" href="assets/app.css" />
 
-            var User = Backbone.Model.extend({
-                idAttribute: '_key',
-                url: function() {
-                   var key = this.get(this.idAttribute);
-                   return key? '/users/'+key : '/users';
-                },
-                initialize: function(){
-                    console.log('initialized User'); //debug
-                }
-            });
-
-            var UserCollection = Backbone.Collection.extend({
-                model: User,
-                url: "/users",
-                initialize: function() {
-                   console.log('initialized UserCollection'); //debug
-                   this.backboneFirebase = new BackboneFirebase(this);
-                }
-            });
-
-            var users = new UserCollection();
-            var $log = $('#log');
-            var router = new (Backbone.Router.extend({
-                routes: {
-                    "": 'hello',
-                    "hello": "hello",
-                    "users": "users",
-                    "widgets": "widgets"
-                },
-
-                hello: function() {
-                    console.log('route: hello');
-                },
-
-                users: function() {
-                    console.log('route: users');
-                },
-
-                widgets: function(user) {
-                    console.log('route: widgets');
-                },
-
-                initialize: function() {
-                    this.bind('all', function (trigger, args) {
-                        var routeData = trigger.split(":");
-                        if (routeData[0] === "route") {
-                            $log.text('current route: ' + routeData[1] + (args? ' ('+args+')' : ''));
-                            $('[data-route]').hide();
-                            $('[data-route="'+routeData[1]+'"]').show();
-                            // do whatever here.
-                            // routeData[1] will have the route name
-                        }
-                    });
-                }
-            }))();
-            Backbone.history.start();
-        });
-    </script>
-
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="lib/html5shiv.js"></script>
+    <![endif]-->
 </head>
 <body>
 
-<nav>
-    <a href="#/users">users</a>
-    <a href="#/widgets">widgets</a>
+<nav class="navbar">
+    <div class="navbar-inner">
+        <a href="#" class="brand">Firebase+Backbone+bindings</a>
+        <ul class="nav">
+            <li><a href="#/home">home</a></li>
+            <li><a href="#/users">users</a></li>
+            <li><a href="#/widgets">widgets</a></li>
+            <li><a href="http://www.github.com/katowulf/backbone-firebase-proof">GitHub</a></li>
+        </ul>
+    </div>
 </nav>
 
-
-<section data-route="hello">Hello</section>
-
-<section data-route="users">
-    <fieldset>
-        <legend>add user</legend>
-        <label>name: <input type="text" name="name" /></label>
-        <label>email: <input type="text" name="email" /></label>
-        <button>add</button>
-    </fieldset>
-    <ul>
-        <li><span data-bind="name"></span> (<span data-bind="email"></span>)</li>
-    </ul>
+<section class="container">
+    <article data-route="home" class="row">
+        <div class="span12">
+            <div class="hero-unit">
+                <h1>Hello</h1>
+                <p>Click on <a href="#/users">users</a> and <a href="#/widgets">widgets</a> to see the demo.
+                   Pretty much all the bindings for hooking up
+                    <a href="http://backbonejs.org/">Backbone</a>,
+                    <a href="http://www.firebase.com">Firebase</a>,
+                    and <a href="https://github.com/theironcook/Backbone.ModelBinder">ModelBinder</a>
+                    (for data bindings) are in these two files:</p>
+                <ul>
+                    <li><a href="lib/backbone-firebase.js">lib/backbone-firebase.js</a> (thanks <a
+                            href="https://github.com/alexbain">Alex</a>!)</li>
+                    <li><a href="assets/bindings.js">assets/bindings.js</a></li>
+                </ul>
+                <p>Everything else is demo-fluff!</p>
+            </div>
+        </div>
+    </article>
+    <article data-route="users" class="row">
+        <div class="span4">
+            <fieldset>
+                <legend>add user</legend>
+                <label>name: <input type="text" name="name" /></label>
+                <label>email: <input type="text" name="email" /></label>
+                <button>add</button>
+            </fieldset>
+        </div>
+        <div class="span8">
+            <ul class="data-panel"></ul>
+        </div>
+    </article>
+    <article data-route="widgets" class="row">
+        <div class="span4">
+            <fieldset>
+                <legend>add widget</legend>
+                <label>owner: <input type="text" name="owner" /></label>
+                <label>name: <input type="text" name="name" /></label>
+                <button>add</button>
+            </fieldset>
+        </div>
+        <div class="span8">
+            <ul class="data-panel"></ul>
+        </div>
+    </article>
 </section>
 
-<section data-route="widgets">
-    <fieldset>
-        <legend>add widget</legend>
-        <label>owner: <input type="text" name="owner" /></label>
-        <label>name: <input type="text" name="name" /></label>
-        <button>add</button>
-    </fieldset>
-    <ul>
-        <li><span data-bind="name"></span> (<span data-bind="email"></span>)</li>
-    </ul>
-</section>
+<footer class="navbar navbar-fixed-bottom">
+    <div class="navbar-inner" id="log">
+        current route: <span data-bind="route">home</span> /
+        users loaded: <span data-bind="userCount">*</span> /
+        widgets loaded: <span data-bind="widgetCount">*</span>
+    </div>
+</footer>
 
-<div id="log"></div>
+<!--
+  ********** TEMPLATES ************
+-->
+
+<script type="text/template" name="data-panel">
+    <li data-name="name"></li>
+</script>
+
+<script type="text/template" name="data-panel-users">
+    <li><span data-name="name"></span> (<span data-name="email"></span>)</li>
+</script>
+
+<script type="text/template" name="data-panel-widgets">
+    <li><span data-name="name"></span> (<span data-name="owner"></span>)</li>
+</script>
+
+<!--
+  ********** LIBS ************
+-->
+<script type="text/javascript" src="http://static.firebase.com/v0/firebase.js"></script>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.2/underscore-min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.js"></script>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.9/backbone-min.js"></script>
+<script type="text/javascript" src="lib/console-normalizer.js"></script>
+<script type="text/javascript" src="lib/underscore.string.js"></script>
+<script type="text/javascript" src="lib/backbone-firebase.js"></script>
+<!--<script type="text/javascript" src="lib/rivets.js"></script>-->
+<script type="text/javascript" src="lib/Backbone.ModelBinder.min.js"></script>
+<script type="text/javascript" src="lib/Backbone.CollectionBinder.min.js"></script>
+<script type="text/javascript" src="lib/jquery.prefix.selector.js"></script>
+
+<!--
+  ********** SCRIPTS ************
+-->
+<script type="text/javascript" src="assets/templates.js"></script>
+<script type="text/javascript" src="assets/models.js"></script>
+<script type="text/javascript" src="assets/collections.js"></script>
+<script type="text/javascript" src="assets/views.js"></script>
+<script type="text/javascript" src="assets/router.js"></script>
+<script type="text/javascript" src="assets/bindings.js"></script>
+<script type="text/javascript" src="assets/app.js"></script>
 
 </body>
 </html>

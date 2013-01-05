@@ -1,4 +1,8 @@
 
+body {
+   padding-bottom: 40px;
+}
+
 article[data-route] {
    display: none;
 }

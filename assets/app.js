@@ -26,7 +26,7 @@
          timeout = type;
          type = null;
       }
-      var $t = $.bb.appendTemplate($('#messages'), 'message-template', {'txt': txt, 'class': messageClass(type)});
+      var $t = $.bb.appendTemplate($('#messages'), 'message-template', {'txt': txt||'', 'class': messageClass(type)});
       $t.click($t.remove.bind($t));
       if( timeout ) {
          setTimeout(function() {
@@ -39,7 +39,7 @@
 
    jQuery(function($) {
       $.bb.updateFooter();
-      BackboneFirebase.DEFAULT_INSTANCE = 'https://github.firebaseio.com/';
+      BackboneFirebase.DEFAULT_INSTANCE = 'https://YOURINSTANCE.firebaseio.com/';
       $.bb.Router.init(footerModel);
    });
 

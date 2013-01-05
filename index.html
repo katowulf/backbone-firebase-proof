@@ -154,7 +154,7 @@
 </script>
 
 <script type="text/template" name="message-template">
-    <div class="alert <%- data.class %>">
+    <div class="alert <%- data['class'] %>">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         <%- data.txt %>
     </div>
@@ -176,8 +176,8 @@
 <script type="text/javascript" src="lib/backbone-firebase.js"></script>
 <script type="text/javascript" src="lib/backbone-firebase-autosync.js"></script>
 <!--<script type="text/javascript" src="lib/rivets.js"></script>-->
-<script type="text/javascript" src="lib/Backbone.ModelBinder.min.js"></script>
-<script type="text/javascript" src="lib/Backbone.CollectionBinder.min.js"></script>
+<script type="text/javascript" src="lib/Backbone.ModelBinder.js"></script>
+<script type="text/javascript" src="lib/Backbone.CollectionBinder.js"></script>
 <script type="text/javascript" src="lib/jquery.prefix.selector.js"></script>
 
 <!--

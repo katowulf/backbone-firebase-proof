@@ -3,14 +3,12 @@
 (function ($) {
    "use strict";
    $.bb || ($.bb = {}); // namespace
-   $.bb.templates = {}; // the compiled templates
-   var cachedTemplates = {}; //$.bb.templates;
+   var T = $.bb.templates = {}; // the compiled templates
 
       // load all <script type="text/template" name="..."> nodes, key them by name
    $('script[type="text/template"]').each(function() {
       var $this = $(this);
-      var k = $this.attr('name');
-      cachedTemplates[k+''] = _.template(_.str.trim($this.html()), null, {'variable': 'data'});
+      T[ $this.attr('name') ] = _.template(_.str.trim($this.html()), null, {'variable': 'data'});
    });
 
    /**
@@ -35,7 +33,7 @@
    $.bb.fetchTemplate = fetchTemplate;
 
    function fetchTemplate(template, values) {
-      var t = cachedTemplates[template];
+      var t = T[template];
       if( t ) {
          return t(values||{});
       }

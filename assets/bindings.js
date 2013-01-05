@@ -5,8 +5,6 @@
    $.bb || ($.bb = {}); // namespace
    var B = $.bb.bindings = {};
 
-   var ready = false;
-
    /**
     * Bind an element using html attributes. The elements accepted 'are':
     *    data-'bind': tries to determine the best choice (e.g. value for inputs, html/text for span, div, et al)
@@ -23,14 +21,14 @@
    B.collect = function($e, fields, props) {
       props || (props = {});
       var out = {};
-      $e.find('[data-bind], [data-attr]').each(function() {
-         var name = _.str.trim($(this).attr('data-bind'));
+      $e.find('[data-bind], [data-name], [data-attr]').each(function() {
+         var name = _.str.trim($(this).attr('data-bind')||$(this).attr('data-name')) ;
          var attr = $(this).attr('data-attr');
          if( attr ) {
             var parts = attr.split(':');
             name = _.str.trim(parts[1]);
             if(_.contains(fields, name)) {
-               out[name] = { selector: '[data-attr="'+attr+'"]', 'elAttribute': _.str.trim(parts[1]) };
+               out[name] = { 'selector': '[data-attr="'+attr+'"]', 'elAttribute': _.str.trim(parts[0]) };
             }
          }
          else if( name && _.contains(fields, name)) {
@@ -67,15 +65,15 @@
          case 'select':
             if( props.collection ) {
                return {
-                  selector: selector,
+                  'selector': selector,
                   'converter':(new Backbone.ModelBinder.CollectionConverter(props.collection)).convert
                }
             }
             else {
-               return { 'selector': selector, 'default': 'val'};
+               return {'selector': selector, 'default': 'val'};
             }
          default:
-            return { 'selector': selector, 'elAttribute': props.type||'html'};
+            return {'selector': selector, 'elAttribute': props.type||'html'};
       }
    }
 

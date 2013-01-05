@@ -30,7 +30,7 @@
    C.Widgets = Backbone.Collection.extend({
       model: $.bb.models.Widget,
       'url': "/widgets",
-      'initialize': function(models, props) {
+      initialize: function(models, props) {
          this.updateCount();
          this.backboneFirebase = new BackboneFirebase(this, {idAttribute: '_id', 'syncManager': BackboneFirebaseAutoSync});
          this.on('all', function(action) {
@@ -44,7 +44,7 @@
             }
          }, this);
       },
-      'updateCount': function() {
+      updateCount: function() {
          $.bb.updateFooter({'widgetCount': this.length});
       }
    });

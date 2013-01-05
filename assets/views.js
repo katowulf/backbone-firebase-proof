@@ -16,7 +16,7 @@
       // Applies Backbone.ModelBinder bindings to the data
       applyDataBindings: function(template, $to, bindings) {
          bindings = _.extend({
-            'routeUrl': { 'highlight': '[href=""]', 'elAttribute': 'href' },
+            'routeUrl': { 'selector': '[href=""]', 'elAttribute': 'href' },
             'name': { 'selector': '[data-name="name"]' }
          }, bindings||{});
          var factory = $.bb.bindings.factory({'template': template, 'bindings': bindings});
@@ -50,7 +50,6 @@
 
       // remove a record
       addDeleteTrigger: function(selector, root) {
-         console.log('adding delete triggers', selector, root); //debug
          var collection = this.collection;
          var $e = root? this.$el.find(root) : this.$el;
          $e.on('click.deleteTrigger', selector, function(e) {

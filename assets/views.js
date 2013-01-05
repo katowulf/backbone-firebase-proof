@@ -16,42 +16,41 @@
       // Applies Backbone.ModelBinder bindings to the data
       applyDataBindings: function(template, $to, bindings) {
          bindings = _.extend({
-            routeUrl: { selector: '[href=""]', elAttribute: 'href' },
-            name: { selector: '[data-name="name"]' }
+            'routeUrl': { 'highlight': '[href=""]', 'elAttribute': 'href' },
+            'name': { 'selector': '[data-name="name"]' }
          }, bindings||{});
-         var factory = $.bb.bindings.factory({template: template, bindings: bindings});
+         var factory = $.bb.bindings.factory({'template': template, 'bindings': bindings});
          var binder = new Backbone.CollectionBinder(factory);
          binder.bind(this.collection, $to);
-         // add clickable delete event
-
          this._subscriptions.push(binder);
       },
 
       // show the html panel
-      show: function() {
+      'show': function() {
          this.$el.show();
       },
 
       // hide the html panel
-      hide: function() {
+      'hide': function() {
          this.$el.hide();
       },
 
       // jQuery/Bootstrap validation
-      addValidation: function() {
+      'addValidation': function() {
          this.$el.find('form').on('submit', false).validate({
             highlight: function(label) {
                $(label).closest('.control-group').addClass('error').removeClass('success');
             },
-            success: function(label) {
+            'success': function(label) {
                $(label).closest('.control-group').addClass('success').removeClass('error');
             },
-            submitHandler: _.bind(this.addEntry, this)
+            'submitHandler': _.bind(this.addEntry, this)
          });
       },
 
       // remove a record
       addDeleteTrigger: function(selector, root) {
+         console.log('adding delete triggers', selector, root); //debug
          var collection = this.collection;
          var $e = root? this.$el.find(root) : this.$el;
          $e.on('click.deleteTrigger', selector, function(e) {
@@ -66,7 +65,7 @@
       },
 
       // add a record
-      addEntry: function(form, evt) {
+      'addEntry': function(form, evt) {
          var values = {};
          $(form).find('input[type=text], select').each(function() {
             var $self = $(this);
@@ -79,7 +78,7 @@
       },
 
       // just changes the default text in a field
-      updateInputTextOnAdd: function($e, prefix, suffix) {
+      'updateInputTextOnAdd': function($e, prefix, suffix) {
          suffix || (suffix = '');
          var list = this.collection;
          var fn = _.bind(function() {
@@ -89,10 +88,10 @@
          this._addSubscription(function() { list.off('add', fn) });
       },
 
-      _subscriptions: [], // see destroy()
+      '_subscriptions': [], // see destroy()
 
       // free resources if destroyed
-      destroy: function() {
+      'destroy': function() {
          _.each(this._subscriptions, function(sub) {
             if( sub.dispose ) { sub.dispose(); }
             else if( sub.unbind ) { sub.unbind(); }
@@ -101,9 +100,9 @@
       },
 
       // a wrapper for creating disposable subscriptions
-      _addSubscription: function(fn) {
+      '_addSubscription': function(fn) {
          this._subscriptions.push({
-            dispose: _.bind(fn, this)
+            'dispose': _.bind(fn, this)
          });
       }
    });
@@ -114,11 +113,11 @@
     ***********************/
 
    V.Users = ViewBase.extend({
-      collection: null,
+      'collection': null,
       initialize: function(props) {
          $.bb.showMessage('Loading users from database', 'info', 2);
          this.collection = loadUsers();
-         this.applyDataBindings('data-panel-users', this.$el.find('.data-panel'), {email: { selector: '[data-name="email"]' }});
+         this.applyDataBindings('data-panel-users', this.$el.find('.data-panel'), {email: { 'selector': '[data-name="email"]' }});
          this.addValidation();
          this.addDeleteTrigger('a', '.data-panel');
          this.updateInputTextOnAdd(this.$el.find('[name=name]'), 'user');
@@ -134,8 +133,8 @@
       widgets: null,
       initialize: function(props) {
          $.bb.showMessage('Loading widgets from database', 'info', 2);
-         this.collection = new $.bb.lists.Widgets({footerRef: props.extra.footer});
-         this.applyDataBindings('data-panel-widgets', this.$el.find('.data-panel'), {owner: {selector: '[data-name="owner"]'}});
+         this.collection = new $.bb.lists.Widgets();
+         this.applyDataBindings('data-panel-widgets', this.$el.find('.data-panel'), {'owner': {'selector': '[data-name="owner"]'}});
          this.addValidation();
          this.addDeleteTrigger('a', '.data-panel');
          this.syncDropdownMenu();
@@ -144,7 +143,7 @@
       syncDropdownMenu: function() {
          var users = loadUsers();
          var template = $.bb.fetchTemplate('option-template');
-         var factory = new Backbone.CollectionBinder.ElManagerFactory(template, { name: { selector: '' }});
+         var factory = new Backbone.CollectionBinder.ElManagerFactory(template, { 'name': { 'selector': '' }});
          var binder = new Backbone.CollectionBinder(factory);
          binder.bind(users, this.$el.find('select'));
          this._subscriptions.push(binder);

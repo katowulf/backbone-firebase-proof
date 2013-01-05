@@ -5,7 +5,7 @@
 
    // some bindings for our footer element (used by updateFooter() below)
    var footerModel = new $.bb.models.Footer();
-   var footerView = new $.bb.views.Footer({el: $('footer .navbar-inner'), model: footerModel});
+   var footerView = new $.bb.views.Footer({'el': $('footer .navbar-inner'), 'model': footerModel});
 
    /**
     * A utility to update the footer text bindings from other views
@@ -26,7 +26,7 @@
          timeout = type;
          type = null;
       }
-      var $t = $.bb.appendTemplate($('#messages'), 'message-template', {txt: txt, class: messageClass(type)});
+      var $t = $.bb.appendTemplate($('#messages'), 'message-template', {'txt': txt, 'class': messageClass(type)});
       $t.click($t.remove.bind($t));
       if( timeout ) {
          setTimeout(function() {
@@ -39,7 +39,7 @@
 
    jQuery(function($) {
       $.bb.updateFooter();
-      BackboneFirebase.DEFAULT_INSTANCE = 'http://github.firebaseio.com/';
+      BackboneFirebase.DEFAULT_INSTANCE = 'https://github.firebaseio.com/';
       $.bb.Router.init(footerModel);
    });
 

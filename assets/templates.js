@@ -3,19 +3,21 @@
 (function ($) {
    "use strict";
    $.bb || ($.bb = {}); // namespace
-   var T = $.bb.templates = {}; // the compiled templates
+   $.bb.templates = {}; // the compiled templates
+   var cachedTemplates = {}; //$.bb.templates;
 
-   // load all <script type="text/template" name="..."> nodes, key them by name
+      // load all <script type="text/template" name="..."> nodes, key them by name
    $('script[type="text/template"]').each(function() {
       var $this = $(this);
-      T[ $this.attr('name') ] = _.template(_.str.trim($this.html()), null, {variable: 'data'});
+      var k = $this.attr('name');
+      cachedTemplates[k+''] = _.template(_.str.trim($this.html()), null, {'variable': 'data'});
    });
 
    /**
     * Apply a template to the given element using underscore's templating tools.
     *
     * All variables are put into the data scope automagically, for performance,
-    * so values `{ hello: 'world' }` would be accessed using <%= data.hello %>
+    * so values `{ 'hello': 'world' }` would be accessed using <%= data.hello %>
     *
     * @param {jQuery} $e
     * @param {string} template
@@ -33,7 +35,7 @@
    $.bb.fetchTemplate = fetchTemplate;
 
    function fetchTemplate(template, values) {
-      var t = T[template];
+      var t = cachedTemplates[template];
       if( t ) {
          return t(values||{});
       }

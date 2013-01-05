@@ -6,36 +6,39 @@
    var M = $.bb.models = {};
 
    var ModelBase = Backbone.Model.extend({
-      idAttribute: '_key',
-      keys: function() {
+      idAttribute: '_id',
+      'keys': function() {
          return _.keys(this.attributes);
+      },
+      'toJSON': function() {
+         return _.omit(this.attributes, this.idAttribute, 'routeUrl');
       }
    });
 
    M.User = ModelBase.extend({
       defaults: {
-         name: 'Anon Y. Mous',
-         email: 'unknown@localhost'
+         'name': 'Anon Y. Mous',
+         'email': 'unknown@localhost'
       },
-      url: 'users',
-      initialize: function(){
-         this.routeUrl = '#/user/delete/'+this.cid;
+      'url': 'users',
+      'initialize': function(){
+         this.set({'routeUrl': '#/user/delete/'+this.cid}, {'silent': true});
       }
    });
 
    M.Widget = ModelBase.extend({
-      defaults: {
-         name: 'unknown widget',
-         owner: 'no owner'
+      'defaults': {
+         'name': 'unknown widget',
+         'owner': 'no owner'
       },
-      url: 'widgets',
-      initialize: function(){
-         this.routeUrl = '#/widget/delete/'+this.cid;
+      'url': 'widgets',
+      'initialize': function(){
+         this.set({'routeUrl': '#/user/delete/'+this.cid}, {'defaults': true});
       }
    });
 
    M.Footer = ModelBase.extend({
-      defaults: {
+      'defaults': {
          'route': 'home',
          'userCount': '*',
          'widgetCount': '*'

@@ -1,39 +1,39 @@
 
 article[data-route] {
-   display: none;
+   'display': none;
 }
 
 section.ruler div {
-   height: 5px;
-   background-color: #aaa;
+   'height': 5px;
+   background-'color': #aaa;
    margin-bottom: 1px;
 }
 
 [class^="span"] {
-   background-color: #eee;
-   border-radius: 4px;
+   background-'color': #eee;
+   border-'radius': 4px;
 }
 
 [class^="span"] > * {
-   margin: 10px;
+   'margin': 10px;
 }
 
 ul.data-panel {
-   padding-left: 20px;
-   list-style-type: none;
+   padding-'left': 20px;
+   list-style-'type': none;
 }
 
 ul.data-panel li a {
-   display: block;
-   margin: 2px;
+   'display': block;
+   'margin': 2px;
    padding: 5px;
 }
 
 ul.data-panel li a i {
-   display: none;
+   'display': none;
 }
 
-ul.data-panel li a:hover i {
+ul.data-panel li 'a':hover i {
    display: inline-block;
 }
 
@@ -42,17 +42,17 @@ ul.data-panel li a:hover i {
 }
 
 .hero-unit h1 {
-   margin: 0;
-   padding: 0 0 20px 0;
+   'margin': 0;
+   'padding': 0 0 20px 0;
 }
 
 footer .navbar-inner {
-   line-height: 40px;
-   text-align: center;
+   line-'height': 40px;
+   text-'align': center;
 }
 
 footer span {
-   color: green;
+   'color': green;
 }
 
 form {
@@ -68,8 +68,8 @@ input[type="text"] {
 }
 
 #messages {
-   position: absolute;
-   bottom: 30px;
+   'position': absolute;
+   'bottom': 30px;
    z-index: 1050;
-   width: 100%;
+   'width': 100%;
 }

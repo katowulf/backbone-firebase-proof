@@ -7,7 +7,7 @@
    var footer;
 
    $.bb.Router = {
-      init: function(footerModel) {
+      'init': function(footerModel) {
          footer = footerModel;
          new Router();
          Backbone.history.start();
@@ -16,26 +16,26 @@
 
    var shown = null;
    var Router = Backbone.Router.extend({
-         routes: {
+         'routes': {
             "": 'home',
             "home": "home",
             "users": "users",
             "widgets": "widgets"
          },
 
-         home: function() {
+         'home': function() {
             console.log('route: home');
          },
 
-         users: function() {
+         'users': function() {
             console.log('route: users');
          },
 
-         widgets: function(user) {
+         'widgets': function(user) {
             console.log('route: widgets');
          },
 
-         initialize: function() {
+         'initialize': function() {
             // runs any time a route is triggered
             this.on('all', function (trigger, args) {
                var routeData = trigger.split(":");
@@ -64,7 +64,7 @@
       if( !v ) {
          var View = $.bb.views[_.str.titleize(route)];
          if( View ) {
-            var props = { extra: {footer: footer} };
+            var props = { 'extra': {'footer': footer} };
             if( $el ) { props.el = $el; }
             else { props.tagName = 'div' }
             v = loadedViews[route] = new View(props);
@@ -73,6 +73,6 @@
       v && v.show();
       return v;
    }
-   var loadedViews = {};
+   var loadedViews = $.bb.loadedViews = {}; // just stored in scope for debugging
 
 })(jQuery, window.console);

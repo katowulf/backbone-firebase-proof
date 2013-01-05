@@ -21,6 +21,9 @@ section.ruler div {
 ul.data-panel {
    padding-left: 20px;
    list-style-type: none;
+   max-height: 80%;
+   overflow-y: scroll;
+   overflow-x: hidden;
 }
 
 ul.data-panel li a {

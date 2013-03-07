@@ -7,11 +7,11 @@
    var footer;
 
    $.bb.Router = {
-      'init': _.once(function(footerModel) {
+      'init': function(footerModel) {
          footer = footerModel;
          new Router();
          Backbone.history.start();
-      })
+      }
    };
 
    var shown = null;

@@ -39,7 +39,7 @@
 
    jQuery(function($) {
       $.bb.updateFooter();
-      BackboneFirebase.DEFAULT_INSTANCE = 'https://YOURINSTANCE.firebaseio.com/';
+      BackboneFirebase.DEFAULT_INSTANCE = 'https://github.firebaseio.com/';
       $.bb.Router.init(footerModel);
    });
 
